@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="2.11">
+    <attributes>
+        <attribute name="name" value=""/>
+        <attribute name="authors" value="Ana Atala"/>
+        <attribute name="about" value=""/>
+        <attribute name="saved" value="2021-05-12 05:45:20 PM"/>
+        <attribute name="created" value="QW5hIEF0YWxhO0RFU0tUT1AtSkhGMUpOSzsyMDIxLTA1LTEyOzA1OjIyOjE1IFBNOzMxMzQ="/>
+        <attribute name="edited" value="QW5hIEF0YWxhO0RFU0tUT1AtSkhGMUpOSzsyMDIxLTA1LTEyOzA1OjQ1OjIwIFBNOzE7MzI0Mw=="/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="razao, ak" type="Real" array="False" size=""/>
+            <declare name="countk, countn" type="Integer" array="False" size=""/>
+            <declare name="escolhapa, escolhatermo" type="Boolean" array="False" size=""/>
+            <do expression="escolhapa = true">
+                <do expression="!escolhapa">
+                    <comment text="Loop serve para confirmar a equa&#231;&#227;o inserida"/>
+                    <output expression="&quot;escreva a raz&#227;o da PA: &quot;" newline="True"/>
+                    <input variable="razao"/>
+                    <output expression="&quot;escreva o termo conhecido: &quot;" newline="True"/>
+                    <input variable="ak"/>
+                    <output expression="&quot;escreva a posi&#231;&#227;o do termo conhecido na pa: &quot;" newline="True"/>
+                    <input variable="countk"/>
+                    <output expression="&quot;A PA Inserida &#233;: an = &quot;&amp; ak &amp;&quot; + (n - &quot; &amp; countk &amp; &quot;)*&quot;&amp;razao" newline="True"/>
+                    <output expression="&quot;Confirmar? (true/false)&quot;" newline="False"/>
+                    <input variable="escolhapa"/>
+                    <comment text="Aqui &#233; !escolhapa pq uma confirma&#231;&#227;o da pa correta continuaria no loop"/>
+                </do>
+                <do expression="escolhatermo">
+                    <output expression="&quot;escreva a posi&#231;&#227;o do termo desejado: &quot;" newline="True"/>
+                    <input variable="countn"/>
+                    <output expression="&quot;O resultado da progress&#227;o aritm&#233;tica para o termo &quot;&amp; countn &amp;&quot; &#233;: &quot;&amp; ak+ (countn-countk)*razao" newline="True"/>
+                    <output expression="&quot;deseja calcular outro termo para esta pa?  (true/false)&quot;" newline="True"/>
+                    <input variable="escolhatermo"/>
+                </do>
+                <output expression="&quot;Deseja calcular outra PA? (true/false)&quot;" newline="True"/>
+                <input variable="escolhapa"/>
+            </do>
+        </body>
+    </function>
+</flowgorithm>
