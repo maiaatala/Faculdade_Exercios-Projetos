@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "ascii_acentos.h": "c",
-        "stdbool.h": "c",
-        "dbana.h": "c"
-    }
-}
