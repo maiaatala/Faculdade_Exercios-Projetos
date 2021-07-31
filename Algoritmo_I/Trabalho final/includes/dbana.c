@@ -1,24 +1,5 @@
 #include "dbana.h"
 
-struct db { //struct para produtos
-    char nome[n_arr][c_max];
-    int qnt[n_arr];
-    float preco[n_arr];
-    int ultimo;
-};
-
-struct client{
-    char nome[n_arr][c_max];
-    int ultimo;
-};
-
-struct dbout{
-    //id produto, id cliente, qnt
-    int registro[n_arr][3]; 
-    float v_t[n_arr];
-    int ultimo;
-};
-
 int existe_cliente(struct client C, char *str){
     int flag = -1;
     int value;
@@ -241,7 +222,7 @@ void consulta_produto(struct db P){
 
 }
 
-void mostrar_produto (struct db P){
+void mostrar_produto(struct db P){
     int i;
     printf (" id |          produto          | qnt | pre%co |\n",cs);
     for(i = 0; i <= P.ultimo; i++){
@@ -362,7 +343,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
     return(V);
 }
 
-void mostrar_vendas (struct dbout V, struct db P, struct client C){
+void mostrar_vendas(struct dbout V, struct db P, struct client C){
     int i;
     printf (" id |     cliente     |     produto     | qnt | pre%co |\n",cs);
     //id cliente produto qnt valor total
@@ -370,8 +351,3 @@ void mostrar_vendas (struct dbout V, struct db P, struct client C){
         printf ("%-4i|%-17s|%-17s|%-5i|%-7.2f|\n", i, C.nome[V.registro[i][1]], P.nome[V.registro[i][0]], V.registro[i][2], V.v_t[i]);
     }
 }
-
-
-
-
-

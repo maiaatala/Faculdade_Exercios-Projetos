@@ -1,5 +1,5 @@
-#ifndef DBANA_H_INCLUDED
-#define DBANA_H_INCLUDED
+#ifndef DBANA_H
+#define DBANA_H
 
 //all the libs we use
 #include <stdio.h>
@@ -7,14 +7,37 @@
 #include "ascii_acentos.h"
 #include <stdbool.h>
 #include <string.h>
-#include <ctype.h> //lowercase
 
 //all the defines here
 #define n_arr 15 //define qnt de array
 #define c_max 300 //define limite de char
 
-//ALL the function prototype
+//all the structs here
+//tive que deixar as struct aqui ou dava erro
 
+//struct para produtos
+struct db { 
+    char nome[n_arr][c_max];
+    int qnt[n_arr];
+    float preco[n_arr];
+    int ultimo;
+};
+
+//struct para clientes
+struct client{
+    char nome[n_arr][c_max];
+    int ultimo;
+};
+
+//struct parav endas
+struct dbout{
+    //id produto, id cliente, qnt
+    int registro[n_arr][3]; 
+    float v_t[n_arr];
+    int ultimo;
+};
+
+//ALL the function prototype
 //struct para produtos
 struct db;
 //struct para clientes
@@ -44,12 +67,16 @@ struct db novo_produto(struct db);
 //verify product
 void consulta_produto(struct db);
 //mostrar lista de produto
-void mostrar_produto (struct db);
+void mostrar_produto(struct db);
 //add new sales
 struct dbout nova_venda(struct dbout, struct db *, struct client);
 //show sales
-void mostrar_vendas (struct dbout, struct db, struct client);
+void mostrar_vendas(struct dbout, struct db, struct client);
+
+//All the macro declararion [declare what the functions are]
+
+//#define mostrar_vendas(vendas, produtos, clientes) lists
+//parei pq nao vi diferença no vscode.
 
 // END IF
-
 #endif

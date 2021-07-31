@@ -1,4 +1,4 @@
-#include "includes/dbana.c"
+#include "includes/dbana.h"
 
 /* HOW TO COMPILE THIS CORRECTLY
 ON THE MAIN FILE:
@@ -6,7 +6,9 @@ ON THE MAIN FILE:
 on terminal, USINC CMD:
 gcc -o mercado.exe mercado.c includes/dbana.c
 TO RUN:
-mercado.exe */
+mercado.exe 
+TO MAKE IT EASIER TO CODE
+change .h to .c and it will compile inside vscode*/
 
 void credits (){
     printf ("\n Fim do programa \n\t%c Ana Atala.\n\n", p_s);
@@ -25,7 +27,7 @@ int main(){
     vendas = in_dbout(vendas);
     do{
         menu = main_menu();
-        printf ("\nEscolha: %i\n", menu);
+        //printf ("\nEscolha: %i\n", menu);
         switch (menu){
             case 0:
                 //Sair do programa
@@ -55,7 +57,6 @@ int main(){
                 system("cls");
                 printf("--Cadastro de Produto--\n");
                 produto = novo_produto(produto);
-                
                 break;
             case 22:
                 //Consultar produto pelo nome
