@@ -11,7 +11,15 @@ TO MAKE IT EASIER TO CODE
 change .h to .c and it will compile inside vscode*/
 
 void credits (){
-    printf ("\n Fim do programa \n\t%c Ana Atala.\n\n", p_s);
+    printf ("\n          ==Creditos==         \n");
+    printf ("//===========[]===============\\\\ \n");
+    printf ("||   Aluno   ||   Ana Atala   ||\n");
+    printf ("||  Materia  ||  Algoritmo I  ||\n");
+    printf ("|| Faculdade ||     Unemat    ||\n");
+    printf ("||   Campus  ||  Jani Vanini  ||\n");
+    printf ("||    Data   || 31 Julho 2021 ||\n");
+    printf ("\\\\===========[]===============// \n\n");
+
 }
 
 int main(){
@@ -31,6 +39,7 @@ int main(){
         switch (menu){
             case 0:
                 //Sair do programa
+                system("cls");
                 credits();
                 break;
             case 11:

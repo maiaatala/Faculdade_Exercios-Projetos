@@ -34,11 +34,14 @@ int main_menu(){
     while (!flag){
         do{ //esse loop vai restrigir o input para entre apenas 0 e 3. sera usado varias vezes.
             system("cls");
-            printf ("\n\t Menu Principal\n");
-            printf ("1 - Acessar m%cdulo Cliente \n", o_a);
-            printf ("2 - Acessar m%cdulo Produto \n", o_a);
-            printf ("3 - M%cdulo de Vendas\n", o_a);
-            printf ("0 - para sair do programa\n\t escolha: ");
+            printf ("\n       --Menu Principal--\n");
+            printf ("+---+-------------------------+\n");
+            printf ("| 1 | Acessar m%cdulo Cliente  |\n", o_a);
+            printf ("| 2 | Acessar m%cdulo Produto  |\n", o_a);
+            printf ("| 3 | M%cdulo de Vendas        |\n", o_a);
+            printf ("| 0 | para sair do programa   |\n");
+            printf ("+---+-------------------------+\n");
+            printf ("           escolha: ");
             scanf  ("%i", &m);
         }while((m<0)||(m>3));
 
@@ -48,11 +51,14 @@ int main_menu(){
             case 1:
                 do{
                     system("cls");
-                    printf ("\n\t M%cdulo Cliente\n", o_a);
-                    printf ("1 - Inserir novo Cliente \n");
-                    printf ("2 - Consultar Cliente pelo nome \n");
-                    printf ("3 - Imprimir lista de Clientes\n");
-                    printf ("0 - Retornar ao menu principal\n\t escolha: ");
+                    printf ("\n         --M%cdulo Cliente--\n", o_a);
+                    printf ("+---+------------------------------+\n");
+                    printf ("| 1 | Inserir novo Cliente         |\n");
+                    printf ("| 2 | Consultar Cliente pelo nome  | \n");
+                    printf ("| 3 | Imprimir lista de Clientes   |\n");
+                    printf ("| 0 | Retornar ao menu principal   |\n");
+                    printf ("+---+------------------------------+\n");
+                    printf ("           escolha: ");
                     scanf  ("%i", &m1);
                 }while((m1<0)||(m1>3));
                 //m*10 + m1 = as opções serao 11 para novo cliente, 12 para consulta pelo nome, 13 imprimir lista, 10 para voltar ao menu principal.
@@ -62,11 +68,14 @@ int main_menu(){
             case 2:
                 do{
                     system("cls");
-                    printf ("\n\t M%cdulo Produto\n", o_a);
-                    printf ("1 - Inserir novo Produto \n");
-                    printf ("2 - Consultar Produto pelo nome \n");
-                    printf ("3 - Imprimir lista de Produto\n");
-                    printf ("0 - Retornar ao menu principal\n\t escolha: ");
+                    printf ("\n         --M%cdulo Produto--\n", o_a);
+                    printf ("+---+------------------------------+\n");
+                    printf ("| 1 | Inserir novo Produto         |\n");
+                    printf ("| 2 | Consultar Produto pelo nome  |\n");
+                    printf ("| 3 | Imprimir lista de Produto    |\n");
+                    printf ("| 0 | Retornar ao menu principal   |\n");
+                    printf ("+---+------------------------------+\n");
+                    printf ("           escolha: ");
                     scanf  ("%i", &m1);
                 }while((m1<0)||(m1>3));
                 //m*10 + m1 = as opções serao 21 para novo produto, 22 para consulta pelo nome, 23 para imprimir lista, 20 para voltar ao menu principal.
@@ -76,10 +85,13 @@ int main_menu(){
             case 3:
                 do{
                     system("cls");
-                    printf ("\n\t M%cdulo de Vendas\n", o_a);
-                    printf ("1 - Registrar Venda de produtos \n");
-                    printf ("2 - Imprimir lista de produtos vendidos \n");
-                    printf ("0 - Retornar ao menu principal\n\t escolha: ");
+                    printf ("\n         --M%cdulo de Vendas--\n", o_a);
+                    printf ("+---+------------------------------+\n");
+                    printf ("| 1 | Registrar Venda de produtos  |\n");
+                    printf ("| 2 | Imprimir lista de Vendas     |\n");
+                    printf ("| 0 | Retornar ao menu principal   |\n");
+                    printf ("+---+------------------------------+\n");
+                    printf ("           escolha: ");
                     scanf  ("%i", &m1);
                 }while((m1<0)||(m1>2));
                 //m*10 + m1 = as opções serao 31 para nova venda, 32 para imprimir lista, 30 para voltar ao menu principal.
@@ -147,7 +159,7 @@ void consulta_cliente(struct client C){
     char temp[c_max], escolha;
 
     do{
-        printf("Escreva o nome que deseja consultar: \n\t");
+        printf("Escreva o nome que deseja consultar: \n>>>> ");
         fflush (stdin); //algum /n estava entrando no meio do fgets
         fgets (temp, c_max, stdin);
         fflush (stdin);
@@ -160,18 +172,21 @@ void consulta_cliente(struct client C){
             printf ("N%co existe um cliente com esse nome\n", a_t);
         }
 
-        printf ("\tDeseja consultar outro cliente? (s/n): ");
+        printf (">>>> Deseja consultar outro cliente? (s/n): ");
         scanf (" %c", &escolha);
+        printf ("\n");
     }while((escolha == 's')||(escolha == 'S'));
 }
 
 void mostrar_cliente(struct client C){
     int i;
-
-    printf (" id |          cliente          |\n");
+    printf ("+----+-----------------------------+\n");
+    printf ("| id |           cliente           |\n");
+    printf ("+----+-----------------------------+\n");
     for (i = 0; i <= C.ultimo; i++){
-        printf ("%-4i|%-27s|\n", i, C.nome[i]);
+        printf ("| %-3i|    %-25s|\n", i, C.nome[i]);
     }
+    printf ("+----+-----------------------------+\n");
 }
 
 struct db novo_produto(struct db P){
@@ -204,7 +219,7 @@ void consulta_produto(struct db P){
     char temp[c_max], escolha;
 
     do{
-        printf ("Escreva o nome que deseja consultar: \n\t");
+        printf ("Escreva o Produto que deseja consultar: \n>>>> ");
         fflush (stdin);
         fgets (temp, c_max, stdin);
         fflush (stdin);
@@ -216,18 +231,22 @@ void consulta_produto(struct db P){
         }else{
             printf ("Produto n%co cadastrado\n", a_t);
         }
-        printf ("\tDeseja consultar outro produto? (s/n): ");
+        printf (">>>> Deseja consultar outro produto? (s/n): ");
         scanf (" %c", &escolha);
+        printf ("\n");
     }while((escolha == 's')||(escolha == 'S'));
 
 }
 
 void mostrar_produto(struct db P){
     int i;
-    printf (" id |          produto          | qnt | pre%co |\n",cs);
+    printf ("+----+-----------------------------+-------+-----------+\n");
+    printf ("| id |           produto           |  qnt  |   pre%co   |\n",cs);
+    printf ("+----+-----------------------------+-------+-----------+\n");
     for(i = 0; i <= P.ultimo; i++){
-        printf ("%-4i|%-27s|%-5i|%-7.2f|\n", i, P.nome[i], P.qnt[i], P.preco[i]);
+        printf ("| %-3i|    %-25s|  %-5i|  %-9.2f|\n", i, P.nome[i], P.qnt[i], P.preco[i]);
     }
+    printf ("+----+-----------------------------+-------+-----------+\n");
 }
 
 struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
@@ -257,7 +276,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
             //bloco caso usuario escreva um cliente que nao existe
             if (tempint == -1){ 
                 printf ("Cliente n%co registrado\n", a_t);
-                printf ("deseja sair do registro de venda? (s/n): ");
+                printf (">>>> deseja sair do registro de venda? (s/n): ");
                 scanf (" %c", &escolha);
                 if ((escolha == 's')||(escolha == 'S')){
                     loop_in = false;
@@ -270,8 +289,6 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
             }
         }
         V.registro[i][1] = tempint; //salva o id do cliente
-        printf ("Cliente: %s\n", C.nome[V.registro[i][1]]);
-        printf ("Cliente-1: %s\n", C.nome[V.registro[i][1]-1]);
         loop_in	= true;
 
         //loop registro produto
@@ -285,7 +302,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
             //bloco caso usuario escreva um cliente que nao existe
             if (tempint == -1){ 
                 printf ("Produto n%co registrado\n", a_t);
-                printf ("deseja sair do registro de venda? (s/n): ");
+                printf (">>>> deseja sair do registro de venda? (s/n): ");
                 scanf (" %c", &escolha);
                 if ((escolha == 's')||(escolha == 'S')){
                     loop_in = false;
@@ -306,7 +323,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
             scanf ("%i", &tempint);
             if (tempint > tempP.qnt[V.registro[i][0]]){
                 printf ("!! Error, estoque insuficiente, compre %i ou menos\n", tempP.qnt[V.registro[i][0]]);
-                printf ("Deseja inserir outra quantidade? (s/n): ");
+                printf (">>>> Deseja inserir outra quantidade? (s/n): ");
                 scanf (" %c", &escolha);
                 if ((escolha == 's')||(escolha == 'S')){
                     loop_in = true;
@@ -329,7 +346,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
         if (i >= n_arr){
             loop = false;
         }
-        printf ("Deseja Registrar nova venda? (s/n): ");
+        printf (">>>> Deseja Registrar nova venda? (s/n): ");
         scanf (" %c", &escolha);
         if ((escolha != 's')&&(escolha != 'S')){
             loop = false;
@@ -345,9 +362,12 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
 
 void mostrar_vendas(struct dbout V, struct db P, struct client C){
     int i;
-    printf (" id |     cliente     |     produto     | qnt | pre%co |\n",cs);
+    printf ("+----+-----------------------------+-----------------------------+-------+-----------+\n");
+    printf ("| id |           cliente           |           produto           |  qnt  |   pre%co   |\n",cs);
+    printf ("+----+-----------------------------+-----------------------------+-------+-----------+\n");
     //id cliente produto qnt valor total
     for(i = 0; i <= V.ultimo; i++){
-        printf ("%-4i|%-17s|%-17s|%-5i|%-7.2f|\n", i, C.nome[V.registro[i][1]], P.nome[V.registro[i][0]], V.registro[i][2], V.v_t[i]);
+        printf ("| %-3i|    %-25s|    %-25s|  %-5i|  %-9.2f|\n", i, C.nome[V.registro[i][1]], P.nome[V.registro[i][0]], V.registro[i][2], V.v_t[i]);
     }
+    printf ("+----+-----------------------------+-----------------------------+-------+-----------+\n");;
 }
