@@ -116,7 +116,7 @@ struct db in_db(struct db P){
 }
 
 struct client in_cliente(struct client C){
-    strcpy(C.nome[0], "gunnar rammos\0");
+    strcpy(C.nome[0], "gunnar ramos\0");
     strcpy(C.nome[1], "ana atala\0");
     C.ultimo = 1;
     return(C);
@@ -142,9 +142,13 @@ struct client novo_cliente(struct client C){
         fflush (stdin);
         //tratando a string
         C.nome[i][strlen(C.nome[i])-1] = '\0';
+        if (existe_cliente(C, C.nome[i]) == -1){
+            C.ultimo = i; //marca qual foi o ultimo cliente inserido
+            i++;
+        }else{
+            printf ("!! Error: Cliente j%c existe !!\n", a_a);
+        }
         //preparando outro loop
-        C.ultimo = i; //marca qual foi o ultimo cliente inserido
-        i++;
         printf ("Deseja inserir outro cliente? (s/n): ");
         scanf (" %c", &escolha);
     }
@@ -200,12 +204,16 @@ struct db novo_produto(struct db P){
         fflush (stdin);
         //tratamento de string
         P.nome[i][strlen(P.nome[i])-1] = '\0';
-        printf ("Pre%co de 1 unidade: ", cs);
-        scanf ("%f", &P.preco[i]);
-        printf ("Quantidade do produto disponivel: ");
-        scanf ("%i", &P.qnt[i]);
-        P.ultimo = i;
-        i++;
+        if (existe_produto(P, P.nome[i]) == -1){
+            printf ("Pre%co de 1 unidade: ", cs);
+            scanf ("%f", &P.preco[i]);
+            printf ("Quantidade do produto disponivel: ");
+            scanf ("%i", &P.qnt[i]);
+            P.ultimo = i;
+            i++;
+        }else{
+            printf ("!! Error: Produto j%c existe !!\n", a_a);
+        }
         printf ("Deseja inserir outro produto? (s/n): ");
         scanf (" %c", &escolha);
     }
@@ -253,8 +261,9 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
     char escolha = 's', tempchar[c_max];
     int i = (V.ultimo+1), tempint;
     bool loop = true, loop_in = true;
-
-    struct db tempP = *P;
+    /* creates a temporary struct that is exactly like P
+    'cuz issues working it with the pointer adress; */
+    struct db tempP = *P; 
 
     printf ("--lista de clientes--\n");
     mostrar_cliente(C);
@@ -335,12 +344,13 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
                 loop_in = false;
             }
         }
-        tempP.qnt[V.registro[i][0]] -= tempint;
-        V.registro[i][2] = tempint; //salva a quantidade
+        tempP.qnt[V.registro[i][0]] -= tempint; //diminui a quantidade na struct do produto
+        V.registro[i][2] = tempint; //salva a quantidade comprada
 
-        V.v_t[i] = tempP.preco[V.registro[i][0]]*V.registro[i][2];
+        V.v_t[i] = tempP.preco[V.registro[i][0]]*V.registro[i][2]; //calcula o valor total
+        V.ultimo = i; //salva o ultimo indice utilizado da struct vendas
+        //preparação pro prox loop
         loop_in	= true;
-        V.ultimo = i;
         i++;
         //verificacoes do loop
         if (i >= n_arr){
@@ -352,7 +362,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
             loop = false;
         }
     }
-    *P = tempP;
+    *P = tempP; //salva as mudanças no adress correto da struct product
     //verificacao se limite estorou
     if (i >= n_arr){
         printf ("!! error, limite de vendas atingido !!\n");

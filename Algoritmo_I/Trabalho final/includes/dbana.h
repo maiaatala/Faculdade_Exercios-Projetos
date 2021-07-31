@@ -50,11 +50,11 @@ int existe_cliente(struct client, char *str);
 int existe_produto(struct db, char *str);
 //brings out main menu
 int main_menu( );
-//inicializes the products
+//initialize the products
 struct db in_db(struct db);
-//inicializes the clients
+//initialize the clients
 struct client in_cliente(struct client);
-//inicializes the sales
+//initialize the sales
 struct dbout in_dbout(struct dbout);
 //Add new client
 struct client novo_cliente(struct client);
@@ -68,7 +68,9 @@ struct db novo_produto(struct db);
 void consulta_produto(struct db);
 //mostrar lista de produto
 void mostrar_produto(struct db);
-//add new sales
+/* add new sales
+in order to change the qnt variable in the product struct
+a pointer to adress was used */
 struct dbout nova_venda(struct dbout, struct db *, struct client);
 //show sales
 void mostrar_vendas(struct dbout, struct db, struct client);
