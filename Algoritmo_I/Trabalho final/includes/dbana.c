@@ -149,7 +149,7 @@ struct client novo_cliente(struct client C){
             printf ("!! Error: Cliente j%c existe !!\n", a_a);
         }
         //preparando outro loop
-        printf ("Deseja inserir outro cliente? (s/n): ");
+        printf ("Cliente registrado!\n>>>> Deseja inserir outro cliente? (s/n): ");
         scanf (" %c", &escolha);
     }
 
@@ -214,7 +214,7 @@ struct db novo_produto(struct db P){
         }else{
             printf ("!! Error: Produto j%c existe !!\n", a_a);
         }
-        printf ("Deseja inserir outro produto? (s/n): ");
+        printf ("Produto Inserido!\n>>>> Deseja inserir outro produto? (s/n): ");
         scanf (" %c", &escolha);
     }
     if (i >= n_arr){
@@ -356,7 +356,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
         if (i >= n_arr){
             loop = false;
         }
-        printf (">>>> Deseja Registrar nova venda? (s/n): ");
+        printf ("Venda Registrada!\n>>>> Deseja Registrar nova venda? (s/n): ");
         scanf (" %c", &escolha);
         if ((escolha != 's')&&(escolha != 'S')){
             loop = false;
@@ -373,7 +373,7 @@ struct dbout nova_venda(struct dbout V, struct db * P, struct client C){
 void mostrar_vendas(struct dbout V, struct db P, struct client C){
     int i;
     printf ("+----+-----------------------------+-----------------------------+-------+-----------+\n");
-    printf ("| id |           cliente           |           produto           |  qnt  |   pre%co   |\n",cs);
+    printf ("| id |           cliente           |           produto           |  qnt  |   total   |\n",cs);
     printf ("+----+-----------------------------+-----------------------------+-------+-----------+\n");
     //id cliente produto qnt valor total
     for(i = 0; i <= V.ultimo; i++){
