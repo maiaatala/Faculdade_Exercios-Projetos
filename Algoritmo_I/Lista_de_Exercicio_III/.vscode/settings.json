@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "math.h": "c",
+        "stdio.h": "c",
+        "ascii_acentos.h": "c",
+        "stdlib.h": "c"
+    }
+}
