@@ -62,13 +62,16 @@ Jogo input_Jogo(Jogo M){
 
 Jogo nova_palavra(Jogo M){
     // M = init_struct(M, 2);
-
+    if (M.m_exists){
+        show(M);
+    }
     printf("Escreva a palavra a procurar (max 10 char): ");
     fflush(stdin);
     fgets(M.caca.word, c_max+1, stdin);
     fflush(stdin);
 
     M.caca.word[strlen(M.caca.word)-1] = '\0';
+    // printf("%i", strlen(M.caca.word));
     M.caca.w_exists = true;
     // printf ("%s", M.caca.word);
     return M;
@@ -96,6 +99,9 @@ void esqdir(Jogo M){
     for (i = 0; i < c_max; i++){
         for (j = 0; j < c_max; j++){
             // printf("m: %c \n", M.m[i][j]);
+            if ((j + w_length) > c_max){
+                break;
+            }
             if (M.m[i][j] == M.caca.word[0]){
                 found = true;
                 for (k = 0; k < w_length; k++){
@@ -113,9 +119,7 @@ void esqdir(Jogo M){
                     found = false;
                 }
             }
-            if ((j + w_length) >= c_max){
-                break;
-            }
+            
         }
     }
 }
@@ -129,6 +133,9 @@ void diresq(Jogo M){
     for (i = 0; i < c_max; i++){
         for (j = c_max - 1; j >= 0; j--){
             // printf("m: %c \n", M.m[i][j]);
+            if ((j + 1 - w_length) < 0){
+                break;
+            }
             if (M.m[i][j] == M.caca.word[0]){
                 found = true;
                 for (k = 0; k < w_length; k++){
@@ -146,9 +153,7 @@ void diresq(Jogo M){
                     found = false;
                 }
             }
-            if ((j - w_length) < 0){
-                break;
-            }
+            
         }
     }
 }
@@ -162,6 +167,9 @@ void cimabaixo(Jogo M){
     for (j = 0; j < c_max; j++){
         for (i = 0; i < c_max; i++){
             // printf("m: %c \n", M.m[i][j]);
+            if ((i + w_length) > c_max){
+                break;
+            }
             if (M.m[i][j] == M.caca.word[0]){
                 found = true;
                 for (k = 0; k < w_length; k++){
@@ -179,9 +187,7 @@ void cimabaixo(Jogo M){
                     found = false;
                 }
             }
-            if ((i + w_length) > c_max){
-                break;
-            }
+            
         }
     }
 }
@@ -195,6 +201,9 @@ void baixocima(Jogo M){
     for (j = 0; j < c_max; j++){
         for (i = c_max -1; i >= 0; i--){
             // printf("m: %c \n", M.m[i][j]);
+            if ((i + 1 - w_length) < 0){
+                break;
+            }
             if (M.m[i][j] == M.caca.word[0]){
                 found = true;
                 for (k = 0; k < w_length; k++){
@@ -212,43 +221,156 @@ void baixocima(Jogo M){
                     found = false;
                 }
             }
-            if ((i - w_length) < 0){
-                break;
+            
+        }
+    }
+}
+
+void diagsupdir(Jogo M){
+    int i, j, k, w_length;
+    bool found = false;
+
+    w_length = strlen(M.caca.word);
+
+    for (i = 0; i < c_max; i++){
+        for (j = 0; j < c_max; j++){
+            // printf("m: %c \n", M.m[i][j]);
+            if (((j + w_length) > c_max )||((i+1 - w_length) < 0 )){
+                continue;
+            }
+            if (M.m[i][j] == M.caca.word[0]){
+                found = true;
+                for (k = 0; k < w_length; k++){
+                    // printf("w: %c | m: %c \n", M.caca.word[k], M.m[i][j+k]);
+                    if (M.caca.word[k] != M.m[i-k][j+k]){
+                        found = false;
+                        break;
+                    }
+                }
+                if (found){
+                    printf("\n\t Diagonal Superior Direita:  "
+                            ">> Linha: %i, Coluna: %i",
+                            i+1, j+1
+                        );
+                    found = false;
+                }
             }
         }
     }
 }
 
+void diagsupesq(Jogo M){
+    int i, j, k, w_length;
+    bool found = false;
 
-/* void mostrar_pesquisas(Jogo M){
+    w_length = strlen(M.caca.word);
+
+    for (i = 0; i < c_max; i++){
+        for (j = 0; j < c_max; j++){
+            // printf("m: %c \n", M.m[i][j]);
+            if (((j+1 - w_length) < 0)||((i+1 - w_length) < 0 )){
+                continue;
+            }
+            if (M.m[i][j] == M.caca.word[0]){
+                found = true;
+                for (k = 0; k < w_length; k++){
+                    // printf("w: %c | m: %c \n", M.caca.word[k], M.m[i-k][j-k]);
+                    if (M.caca.word[k] != M.m[i-k][j-k]){
+                        found = false;
+                        break;
+                    }
+                }
+                if (found){
+                    printf("\n\t Diagonal Superior Esquerda:  "
+                            ">> Linha: %i, Coluna: %i",
+                            i+1, j+1
+                        );
+                    found = false;
+                }
+            }
+            
+        }
+    }
+}
+
+void diaginfesq(Jogo M){
+    int i, j, k, w_length;
+    bool found = false;
+
+    w_length = strlen(M.caca.word);
+
+    for (i = 0; i < c_max; i++){
+        for (j = 0; j < c_max; j++){
+            // printf("m: %c \n", M.m[i][j]);
+            if (((j+1 - w_length) < 0)||((i + w_length) > c_max )){
+                continue;
+            }
+            if (M.m[i][j] == M.caca.word[0]){
+                found = true;
+                for (k = 0; k < w_length; k++){
+                    // printf("w: %c | m: %c \n", M.caca.word[k], M.m[i-k][j-k]);
+                    if (M.caca.word[k] != M.m[i+k][j-k]){
+                        found = false;
+                        break;
+                    }
+                }
+                if (found){
+                    printf("\n\t Diagonal Inferior Esquerda:  "
+                            ">> Linha: %i, Coluna: %i",
+                            i+1, j+1
+                        );
+                    found = false;
+                }
+            }
+            
+        }
+    }
+}
+
+void diaginfdir(Jogo M){
+    int i, j, k, w_length;
+    bool found = false;
+
+    w_length = strlen(M.caca.word);
+
+    for (i = 0; i < c_max; i++){
+        for (j = 0; j < c_max; j++){
+            // printf("m: %c \n", M.m[i][j]);
+            if (((j + w_length) > c_max)||((i + w_length) > c_max )){
+                continue;
+            }
+            if (M.m[i][j] == M.caca.word[0]){
+                found = true;
+                for (k = 0; k < w_length; k++){
+                    // printf("w: %c | m: %c \n", M.caca.word[k], M.m[i-k][j-k]);
+                    if (M.caca.word[k] != M.m[i+k][j+k]){
+                        found = false;
+                        break;
+                    }
+                }
+                if (found){
+                    printf("\n\t Diagonal Inferior Direita:  "
+                            ">> Linha: %i, Coluna: %i",
+                            i+1, j+1
+                        );
+                    found = false;
+                }
+            }
+            
+        }
+    }
+}
+
+void pesquisa(Jogo M){
     show(M);
-    if (M.caca.esq_dir.c != -1){
-        printf("Esquerda -> Direita:"
-            "\t coluna %i, linha: %i  \n",
-            M.caca.word,
-            M.caca.esq_dir.c+1, M.caca.esq_dir.l+1
-        );
-    }
-    if (M.caca.dir_esq.c != -1){
-        printf("Direita -> Esquerda:"
-            "\t coluna %i, linha: %i  \n",
-            M.caca.word,
-            M.caca.dir_esq.c+1, M.caca.dir_esq.l+1
-        );
-    }
-    if (M.caca.top_down.c != -1){
-        printf("Cima -> Baixo:"
-            "\t coluna %i, linha: %i  \n",
-            M.caca.word,
-            M.caca.top_down.c+1, M.caca.top_down.l+1
-        );
-    }
-    if (M.caca.down_top.c != -1){
-        printf("Baixo -> Cima:"
-            "\t coluna %i, linha: %i  \n",
-            M.caca.word,
-            M.caca.down_top.c+1, M.caca.down_top.l+1
-        );
-    }
-    
-} */
+    printf("Palavra \"%s\": ", M.caca.word);
+    esqdir(M);
+    diresq(M);
+    cimabaixo(M);
+    baixocima(M);
+    diagsupdir(M);
+    diagsupesq(M);
+    diaginfesq(M);
+    diaginfdir(M);
+    printf("\n");
+}

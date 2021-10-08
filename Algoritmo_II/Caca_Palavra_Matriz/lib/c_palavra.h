@@ -57,5 +57,15 @@ void diresq(Jogo M);
 void cimabaixo(Jogo M);
 // does and shows the search down->top
 void baixocima(Jogo M);
+// does and shows the search vertically down left->up right
+void diagsupdir(Jogo M);
+// does and shows the search vertically down right->up left
+void diagsupesq(Jogo M);
+// does and shows the search vertically up right -> left down
+void diaginfesq(Jogo M);
+// does and shows the search vertically up left -> right down
+void diaginfdir(Jogo M);
+// calls all the search void
+void pesquisa(Jogo M);
 
 #endif

@@ -93,11 +93,10 @@ int main(){
                     printf(">>> Ira apagar a palavra atual, continuar? (s/n): ");
                     scanf(" %c", &escolha);
                     if (escolha == 's'){
-                        show(matriz);
                         matriz = nova_palavra(matriz);
                     }
                 }else{
-                    show(matriz);
+                    
                     matriz = nova_palavra(matriz);
                 }
                 system("pause");
@@ -106,15 +105,9 @@ int main(){
             case 5:
                 system("cls");
                 if(matriz.caca.w_exists & matriz.m_exists){
-                    show(matriz);
-                    printf("Palavra \"%s\": ", matriz.caca.word);
-                    esqdir(matriz);
-                    diresq(matriz);
-                    cimabaixo(matriz);
-                    baixocima(matriz);
-                    printf("\n");
+                    pesquisa(matriz);
                 }else{
-                    printf("Matriz ou palavra não inserida. tente novamente\n");
+                    printf("Matriz ou palavra nao inserida. tente novamente\n");
                 }
                 system("pause");
                 break;

@@ -6,7 +6,7 @@
 
 ## Information
 
-Programa destinado a procurar strings em uma matriz. 
+Programa destinado a procurar strings em uma matriz.
 
 ## About
 
