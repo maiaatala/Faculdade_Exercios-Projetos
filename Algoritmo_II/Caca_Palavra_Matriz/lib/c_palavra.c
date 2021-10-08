@@ -107,7 +107,7 @@ void esqdir(Jogo M){
                 }
                 if (found){
                     printf("\n\t Esquerda -> Direita:  "
-                            ">> coluna %i, linha: %i",
+                            ">> Linha: %i, Coluna: %i",
                             i+1, j+1
                         );
                     found = false;
@@ -140,7 +140,7 @@ void diresq(Jogo M){
                 }
                 if (found){
                     printf("\n\t Direita -> Esquerda:  "
-                            ">> coluna %i, linha: %i",
+                            ">> Linha: %i, Coluna: %i",
                             i+1, j+1
                         );
                     found = false;
@@ -173,7 +173,7 @@ void cimabaixo(Jogo M){
                 }
                 if (found){
                     printf("\n\t Cima -> Baixo:  "
-                            ">> coluna %i, linha: %i",
+                            ">> Linha: %i, Coluna: %i",
                             i+1, j+1
                         );
                     found = false;
@@ -206,7 +206,7 @@ void baixocima(Jogo M){
                 }
                 if (found){
                     printf("\n\t Baixo -> Cima:  "
-                            ">> coluna %i, linha: %i",
+                            ">> Linha: %i, Coluna: %i",
                             i+1, j+1
                         );
                     found = false;

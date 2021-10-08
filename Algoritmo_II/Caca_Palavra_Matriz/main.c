@@ -120,7 +120,7 @@ int main(){
                 break;
             default:
                 printf("\n Made By: Ana Atala");
-                printf("\n \t-byeee.");
+                printf("\n \t-byeee.\n");
                 system("pause");
                 loop = false;
         }
