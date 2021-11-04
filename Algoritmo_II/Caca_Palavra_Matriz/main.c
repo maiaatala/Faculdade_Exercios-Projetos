@@ -118,18 +118,6 @@ int main(){
                 loop = false;
         }
     }while(loop);
-    
-    /* printf("%i", matriz.m_exists);
-    matriz = input_Jogo(matriz);
-    printf("\n Jogo inserida: \n");
-    show(matriz);
-    printf("\n");
-
-    printf("type the word to find (max 10 char): ");
-    fgets(caca.word, c_max+1, stdin);
-    fflush(stdin);
-
-    printf("%s", caca.word); */
 
     return (0);
 }

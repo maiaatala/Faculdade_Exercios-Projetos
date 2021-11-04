@@ -11,15 +11,6 @@
 #define c_max 10
 
 typedef enum { false, true } bool;
-// methods prototype lists
-// Jogo struct
-
-
-// lines and column struct
-// typedef struct where{
-//     int l;
-//     int c;
-// }where;
 
 // caça palavras
 typedef struct search{

@@ -9,19 +9,6 @@ Jogo init_struct(Jogo M, char op){
         M.m_exists = false;
         M.caca.w_exists = false;
     }
-    // M.caca.esq_dir.c = -1;
-    // M.caca.dir_esq.c = -1;
-    // M.caca.top_down.c = -1;
-    // M.caca.down_top.c = -1;
-    // // M.caca.cross_up.c = -1;
-    // // M.caca.cross_down.c = -1;
-
-    // M.caca.esq_dir.l = -1;
-    // M.caca.dir_esq.l = -1;
-    // M.caca.top_down.l = -1;
-    // M.caca.down_top.l = -1;
-    // M.caca.cross_up.l = -1;
-    // M.caca.cross_down.l = -1;
     return(M);
 }
 
@@ -47,7 +34,7 @@ Jogo input_Jogo(Jogo M){
     printf("OBS: INSIRA A LINHA INTEIRA\n");
     // generates random matrix by using ascii values, lowercase from 97 to 122 
     for (i = 0; i < c_max; i++){
-        printf(">>> Insira linha %i: ", i);
+        printf(">>> Insira linha %i: ", i+1);
         fflush(stdin);
         fgets(temp_w, c_max+1,stdin);
         fflush(stdin);
