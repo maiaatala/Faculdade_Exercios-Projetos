@@ -1,14 +1,4 @@
-#include "lib/c_palavra.c"
-
-/* HOW TO COMPILE THIS CORRECTLY
-ON THE MAIN FILE:
-#include "calc.h"
-on terminal, USING CMD:
-gcc -o main.exe main.c lib/calc.c
-TO RUN:
-mercado.exe 
-TO MAKE IT EASIER TO CODE
-change .h to .c and it will compile inside vscode*/
+#include "lib/c_palavra.h"
 
 
 void print_options(){
@@ -18,103 +8,107 @@ void print_options(){
             "|  1 | Gerar Matriz aleatoriamente |\n"
             "|  2 | Inserir Matriz              |\n"
             "|  3 | Mostrar Matriz              |\n"
-            "|  4 | Inserir palavra             |\n"
-            "|  5 | Pesquisa                    |\n"
-            "|  6 | Sair                        |\n"
+            "|  4 | Pesquisa                    |\n"
+            "|  5 | Sair                        |\n"
             "      >>>  escolha: "
         );
 }
 
-// option 1 resets the Jogo, op 2 resets the word.
-
 int main(){
+    /*Devido ao fflsuh nao funcionar,
+    e fgets ser estranho, há situacoes que
+    precisará pressionar o enter varias vezes*/
     Jogo matriz;
     int menu;
     char escolha;
     bool loop = true;
 
-    matriz = init_struct(matriz, 3);
-
+    matriz.m_exists = false;
 
     do{
-        system("cls");
+        system("clear");
         print_options();
         scanf("%i", &menu);
 
         switch(menu){
-            // random matriz
+            /*Gerar matriz aleatoriamente*/
             case 1:
-                system("cls");
+                system("clear");
+                /*checa se o usuario ja inseriu uma matriz*/
                 if(matriz.m_exists){
                     printf(">>> Ira apagar a Matriz atual, continuar? (s/n): ");
                     scanf(" %c", &escolha);
                     if (escolha == 's'){
                         matriz = generate(matriz);
-                        printf("Matriz gerada com sucesso\n\n");
-                        system("pause");
+                        printf("\nMatriz gerada com sucesso\n");
                     }
                 }else{
                     matriz = generate(matriz);
-                    printf("Matriz gerada com sucesso\n");
-                    system("pause");
+                    printf("\nMatriz gerada com sucesso\n");
                 }
+                clean_stdin();
+                pause();
+                
                 break;
-            // input matriz
+
+            /*Usuario faz o input da matriz*/
             case 2:
-                system("cls");
+                system("clear");
+                /*checa se o usuario ja inseriu uma matriz*/
                 if (matriz.m_exists){
                     printf(">>> Ira apagar a Matriz atual, continuar? (s/n): ");
                     scanf(" %c", &escolha);
                     if (escolha == 's'){
                         matriz = input_Jogo(matriz);
                         printf("\n");
-                        system("pause");
                     }
                 }else{
                     matriz = input_Jogo(matriz);
-                    printf("\n");
-                    system("pause");
                 }
-                break;
-            //mostrar matriz
-            case 3:
-                system("cls");
+                /* esse bloco existe, pois o processo pode quitar sem inserir
+                uma matriz se o usuario inserir numero incorreto de char*/
                 if (matriz.m_exists){
+                    printf("Matriz gerada com sucesso\n");
+                    clean_stdin();
+                }
+                pause();
+                break;
+
+            /*Mostra a matriz*/
+            case 3:
+                system("clear");
+                /*checa se o usuario ja inseriu uma matriz*/
+                if (matriz.m_exists){
+                    printf("\t\tJogo Atual: \n");
                     show(matriz);
                 }else{
                     printf("Matriz ainda não existe, use opção 1 ou 2\n");
                 }
-                system("pause");
+                clean_stdin();
+                pause();
                 break;
-            //inserir palavra
+
+            /*Pede ao usario uma palavra e a procura na matriz armazenada*/
             case 4:
-                system("cls");
-                if(matriz.caca.w_exists){
-                    printf(">>> Ira apagar a palavra atual, continuar? (s/n): ");
-                    scanf(" %c", &escolha);
-                    if (escolha == 's'){
-                        matriz = nova_palavra(matriz);
-                    }
-                }else{
-                    
+                system("clear");
+                /*checa se o usuario ja inseriu uma matriz*/
+                if(matriz.m_exists){
                     matriz = nova_palavra(matriz);
-                }
-                system("pause");
-                break;
-            //busca esquerda -> dir
-            case 5:
-                system("cls");
-                if(matriz.caca.w_exists & matriz.m_exists){
+                    printf("\n");
                     pesquisa(matriz);
+                    printf("\n");
                 }else{
-                    printf("Matriz ou palavra nao inserida. tente novamente\n");
+                    printf("Matriz nao inserida. tente novamente\n");
+                    clean_stdin();
                 }
-                system("pause");
+                pause();
                 break;
+
+            /*sai do loop com uma mensagem de despedida*/
             default:
                 printf("\n Made By: Ana Atala");
                 printf("\n \t-byeee.\n");
-                system("pause");
+                printf("\n\n");
                 loop = false;
         }
     }while(loop);

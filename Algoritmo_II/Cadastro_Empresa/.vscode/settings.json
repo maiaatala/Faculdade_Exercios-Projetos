@@ -1,5 +1,8 @@
 {
     "cSpell.words": [
         "Tfuncionario"
-    ]
+    ],
+    "files.associations": {
+        "stdio.h": "c"
+    }
 }

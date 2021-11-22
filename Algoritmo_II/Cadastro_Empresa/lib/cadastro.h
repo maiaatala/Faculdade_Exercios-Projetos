@@ -1,14 +1,11 @@
 #ifndef CADASTRO_H
 #define CADASTRO_H
 
-#include <stdio.h>
-#include <stdlib.h>
+#include "def.h"
 
-// structs
 
-typedef struct Funcionario{
-    char * nome;
-    
-};
+
+/* A testing function */
+void something();
 
 #endif
