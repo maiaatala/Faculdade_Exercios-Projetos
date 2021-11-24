@@ -150,6 +150,7 @@ void esqdir(Jogo M){
                     }
                 }
                 if (found){
+                    // escreve a localização do primeiro char da palavra na matriz, e o sentido para encontra-la
                     printf("\n\t Esquerda -> Direita:  "
                             ">> Linha: %i, Coluna: %i",
                             i+1, j+1
