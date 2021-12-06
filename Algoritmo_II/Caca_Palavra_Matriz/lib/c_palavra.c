@@ -35,7 +35,7 @@ Jogo generate(Jogo M){
     for (i = 0; i < 10; i++){
         for (j = 0; j < 10; j++){
             r = rand() % 26;  // % 26 vai gerar valores entre 0 e 25
-            M.m[i][j] = 97+ r; // soma com 97, posicao do 'a'
+            M.m[i][j] = 97 + r; // soma com 97, posicao do 'a'
         }
     }
     M.m_exists = true;

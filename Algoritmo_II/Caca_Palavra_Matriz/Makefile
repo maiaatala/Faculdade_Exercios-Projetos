@@ -7,7 +7,7 @@ final:
 # @ makes the comand run silently
 
 test:
-	@$(CC) test.c ./lib/c_palavra.c -o test.o
+	@$(CC) teste.c ./lib/c_palavra.c -o test.o
 	@./test.o
 
 clean:

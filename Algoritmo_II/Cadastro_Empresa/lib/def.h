@@ -1,8 +1,13 @@
 #ifndef DEFINITION_H
 #define DEFINITION_H
 
+// libs
 #include <stdio.h>
 #include <stdlib.h>
+
+// constant variables
+#define path "./db/empresa.txt"
+#define max_funcionarios 21
 
 // creates the boolean type
 typedef enum {false, true} bool;
