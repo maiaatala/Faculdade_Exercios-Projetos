@@ -7,7 +7,8 @@
 
 // constant variables
 #define path "./db/empresa.txt"
-#define max_funcionarios 21
+#define max_size 21
+#define max_char 100
 
 // creates the boolean type
 typedef enum {false, true} bool;
@@ -18,18 +19,20 @@ char *nome
 int horas
 */
 struct Funcionario{
-    char * name;
+    unsigned int id;
+    char name [max_char];  //precisa ser tramanho constante para na hora da leitura de arquivo, ele saber alocar os binarios corretos
     int horas;
 };
 typedef struct Funcionario SFuncionario; //Struct Funcionario
 typedef struct Funcionario * PSFuncionario; //Pointer To Struct Funcionario
 
 /*"Tabela" empresa
-int count as current numbers of employee
+int curr_size as current numbers of employee
 Funcionario[21] func*/
 struct Empresa{
-    int count;
-    PSFuncionario * func; 
+    int curr_size;
+    int last_id;
+    struct Funcionario *func; 
 };
 typedef struct Empresa SEmpresa;
 typedef struct Empresa * PSEmpresa;

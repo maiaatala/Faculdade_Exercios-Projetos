@@ -41,11 +41,35 @@ char* getstr(FILE *fp, bool lower){
             input_string = realloc(input_string, sizeof(*input_string)*(size+=size));
         }
     }
-    fflush(stdin);
+    // fflush(stdin);
     input_string[len++] = '\0'; // sets the End of Line character to indicate the end of the string.
 
     // functions returns a pointer to this memory allocation.
     return realloc(input_string, sizeof(*input_string)*len); 
+}
+
+//Precsio de um fgets sem alocacao dinamica para pdoer salvar arquivo binario em C
+void f_gets(char *input, FILE *fp, bool lower){
+    int character; //every character in the line
+    size_t len = 0;
+    
+    while(EOF != (character = fgetc(fp)) && character != '\n'){
+        if (lower){
+            to_lower(&character);
+        }
+        input[len++] = character;
+        if (len >= max_char){
+            break;
+        }
+    }
+    input[len++] = '\0';
+}
+
+// fucntion to copy the contents of a string to the other
+void str_cpy(char* dest, const char * source){
+    while (*source != '\0'){
+        *(dest++) = *(source++);
+    }
 }
 
 // function to compare between two strings and return which comes first alphabetically
