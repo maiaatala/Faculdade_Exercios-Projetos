@@ -52,10 +52,11 @@ void read_info(PSEmpresa emp){
 
 // update
 
+
 // delete
 void delete_info(PSEmpresa emp){
     int id, index, i;
-    SFuncionario temp_func;
+    
 
     printf("ID para deletar do banco de dados: ");
     scanf("%i", &id);
@@ -67,17 +68,40 @@ void delete_info(PSEmpresa emp){
     }else{
         for(i = id; i < emp->curr_size-1; i++){
             /*  DO A SWAP FUNCTION */
-            temp_func = func[i+1]
-            func[i+1] = func[i]
-            func[i] = temp_func
+            swap(&emp->func[i], &emp->func[i+1]);
         }
         emp->curr_size--;
-        realloc(emp->func, sizeof(SFuncionario) * (emp->curr_size));
+        // if there's an error, it is in this line
+        emp->func = realloc(emp->func, (sizeof(SFuncionario) * emp->curr_size));
     }
 
 }
 
 // sorts
+
+// swap
+void swap(PSFuncionario ant, PSFuncionario pos){
+    SFuncionario temp_func;
+
+    /* saving to the temp */
+    str_cpy(temp_func.name, pos->name);
+    temp_func.horas = pos->horas;
+    temp_func.idade = pos->idade;
+    temp_func.id = pos->id;
+
+    /* Passing anterior to pos */
+    str_cpy(pos->name, ant->name);
+    pos->horas = ant->horas;
+    pos->idade = ant->idade;
+    pos->id = ant->id;
+
+    /* Passing pos to anterior */
+    str_cpy(ant->name, temp_func.name);
+    ant->idade = temp_func.idade;
+    ant->horas = temp_func.horas;
+    ant->id = temp_func.id;
+
+}
 
 // Save to file
 void save_to_file(PSEmpresa emp){

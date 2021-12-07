@@ -69,6 +69,7 @@ void str_cpy(char *dest, const char *source){
     while (*source != '\0'){
         *(dest++) = *(source++);
     }
+    *(dest++) = *(source++); //need 1 more iteraction to copy the '\0' char
 }
 
 // function to compare between two strings and return which comes first alphabetically
