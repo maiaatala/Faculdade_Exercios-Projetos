@@ -6,7 +6,8 @@
 #include <stdlib.h>
 
 // constant variables
-#define PATH "./db/empresa.txt"
+#define PATH "./db/empresa.dat"
+#define HUMAN_PATH "./db/empresa.txt"
 #define MAX_SIZE 21
 #define MAX_CHAR 100
 

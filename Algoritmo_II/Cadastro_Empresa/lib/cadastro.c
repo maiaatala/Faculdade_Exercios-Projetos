@@ -12,28 +12,42 @@ int get_index(PSEmpresa emp, int wanted_id){
     return -1;
 }
 
+void input(PSFuncionario f){
+    printf("Nome: ");
+    f_gets(f->name, stdin, true);
+    // emp->func[i].name = getstr(stdin, true);
+    printf("Idade: ");
+    scanf("%i", &f->idade);
+    clean_stdin();
+    printf("Horas: ");
+    scanf("%i", &f->horas);
+    clean_stdin();
+}
+
 // create
 void get_info(PSEmpresa emp, int n){
     int i;
 
-    if (emp->curr_size == 0){
-        emp->func = (SFuncionario *)malloc(sizeof(SFuncionario) * n);
-    }
-    else{
-        emp->func = realloc(emp->func, sizeof(SFuncionario) * (emp->curr_size + n));
-    }
-
+    // if (emp->curr_size == 0){
+    //     emp->func = (SFuncionario *)malloc(sizeof(SFuncionario) * n);
+    // }
+    // else{
+    //     emp->func = realloc(emp->func, sizeof(SFuncionario) * (emp->curr_size + n));
+    // }
+    emp->func = (emp->curr_size == 0)? malloc(sizeof(SFuncionario) * n) : realloc(emp->func, (sizeof(SFuncionario) * (emp->curr_size + n)));
+    
     for (i = emp->curr_size; i < (emp->curr_size + n); i++){
         emp->func[i].id = (emp->last_id++);
-        printf("Nome: ");
-        f_gets(emp->func[i].name, stdin, true);
-        // emp->func[i].name = getstr(stdin, true);
-        printf("Idade: ");
-        scanf("%i", &emp->func[i].idade);
-        clean_stdin();
-        printf("Horas: ");
-        scanf("%i", &emp->func[i].horas);
-        clean_stdin();
+        input(&emp->func[i]);
+        // printf("Nome: ");
+        // f_gets(emp->func[i].name, stdin, true);
+        // // emp->func[i].name = getstr(stdin, true);
+        // printf("Idade: ");
+        // scanf("%i", &emp->func[i].idade);
+        // clean_stdin();
+        // printf("Horas: ");
+        // scanf("%i", &emp->func[i].horas);
+        // clean_stdin();
     }
     emp->curr_size += n;
 }
@@ -44,21 +58,34 @@ void read_info(PSEmpresa emp){
     printf("current size: %i   last id: %i   \n", emp->curr_size, emp->last_id);
     for (i = 0; i < (emp->curr_size); i++){
         printf(
-            "id: %i   nome: %s   idade: %i   horas: %i\n",
+            "id: %i   nome: %s   idade: %3i   horas: %3i\n",
             emp->func[i].id, emp->func[i].name, emp->func[i].idade, emp->func[i].horas
         );
     }
 }
 
 // update
+void update_info(PSEmpresa emp){
+    int id, index;
+    
+    printf("ID para fazer UPDATE no banco de dados: ");
+    scanf("%i", &id);
+    clean_stdin();
+    index = get_index(emp, id);
 
+    if (index < 0){
+        printf("Registro nao encontrado, tente um ID que exista\n");
+    }else{
+        input(&emp->func[index]);
+    }
+
+}
 
 // delete
 void delete_info(PSEmpresa emp){
     int id, index, i;
     
-
-    printf("ID para deletar do banco de dados: ");
+    printf("ID para DELETAR do banco de dados: ");
     scanf("%i", &id);
     clean_stdin();
     index = get_index(emp, id);
@@ -162,12 +189,11 @@ PSFuncionario read_from_file(int *len){
     }
 }
 
-// inicia a struct
-void init_db(PSEmpresa emp, int op){
+// inicia a struct PSEmpresa
+void init_db(PSEmpresa emp, bool file){
     int i = 0;
 
-    if (op == 1){
-
+    if (file){
         emp->func = read_from_file(&emp->curr_size);
         emp->last_id = 0;
         // printf("K: %i\n", emp->curr_size);

@@ -6,12 +6,20 @@
 #include "lin.h"
 #include "str.h"
 
-/* create a new entry */
+/* inicializes the database, if bool reads from the file */
+void init_db(PSEmpresa emp, bool op);
+
+/* Fills the attributes of PSFuncionario from the keyboard*/
+void input(PSFuncionario f);
+
+/* create a new entries */
 void get_info(PSEmpresa emp, int n);
+
 /* Reads the database */
 void read_info(PSEmpresa emp);
 
 /* Updates an existing entry */
+void update_info(PSEmpresa emp);
 
 /* Deletes an existing entry */
 void delete_info(PSEmpresa emp);
@@ -30,10 +38,11 @@ void swap(PSFuncionario ant, PSFuncionario pos);
 
 /* Order by Age */
 
-/* inicializes the database */
-void init_db(PSEmpresa emp, int op);
 /* saves to file */
 void save_to_file(PSEmpresa emp);
+
+/* saves to HUMANS readable file */
+
 /* reads from file */
 PSFuncionario read_from_file(int *len);
 
