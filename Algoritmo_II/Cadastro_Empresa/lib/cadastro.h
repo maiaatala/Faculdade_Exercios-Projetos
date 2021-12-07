@@ -6,7 +6,6 @@
 #include "lin.h"
 #include "str.h"
 
-
 /* create a new entry */
 void get_info(PSEmpresa emp, int n);
 /* Reads the database */
@@ -17,6 +16,7 @@ void read_info(PSEmpresa emp);
 /* Deletes an existing entry */
 
 /* returns the index of the wanted id */
+int get_index(PSEmpresa emp, int wanted_id);
 
 /* Orders alphabetically */
 
@@ -27,6 +27,6 @@ void init_db(PSEmpresa emp, int op);
 /* saves to file */
 void save_to_file(PSEmpresa emp);
 /* reads from file */
-PSFuncionario read_from_file();
+PSFuncionario read_from_file(int *len);
 
 #endif
