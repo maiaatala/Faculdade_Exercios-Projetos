@@ -13,7 +13,6 @@ unsigned int str_len(const char *s){
     return (i);  // returns the same as strlen() from string.h library
 }
 
-
 void to_lower(int* c){
     // UPPERCASE ASCII = 65 to 90
     // lowercase ascii = 97 to 122

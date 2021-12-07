@@ -1,6 +1,5 @@
 #include "./lib/str.h"
 #include "./lib/cadastro.h"
-#include "./lib/file.h"
 #include "./lib/def.h"
 #include <string.h>
 
