@@ -83,9 +83,8 @@ void get_info(PSEmpresa emp, int n){
     //     emp->func = realloc(emp->func, sizeof(SFuncionario) * (emp->curr_size + n));
     // }
     emp->func = (emp->curr_size == 0)? malloc(sizeof(SFuncionario) * n) : realloc(emp->func, (sizeof(SFuncionario) * (emp->curr_size + n)));
-    emp->last_id++; // to not have the same id when creating new entries after file read
     for (i = emp->curr_size; i < (emp->curr_size + n); i++){
-        emp->func[i].id = (emp->last_id++);
+        emp->func[i].id = (emp->last_id++)+1; // need to increment it like this so it does work when makeing new entires after file read
         input(&emp->func[i]);
         // printf("Nome: ");
         // f_gets(emp->func[i].name, stdin, true);
