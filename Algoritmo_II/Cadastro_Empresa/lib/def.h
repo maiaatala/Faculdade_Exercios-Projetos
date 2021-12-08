@@ -12,19 +12,15 @@
 #define MAX_CHAR 100
 
 // creates the boolean type
-typedef enum
-{
-    false,
-    true
-} bool;
+typedef enum{false, true} bool;
 
 // structs
 /*Struct para armazeanr os dados do funcionário
+int id
 char *nome
 int hours
 */
-struct Funcionario
-{
+struct Funcionario{
     unsigned int id;
     char name[MAX_CHAR]; //precisa ser tramanho constante para na hora da leitura de arquivo, ele saber alocar os binarios corretos
     int hours;
@@ -36,11 +32,10 @@ typedef struct Funcionario *PSFuncionario; //Pointer To Struct Funcionario
 /*"Tabela" empresa
 int curr_size as current numbers of employee
 Funcionario[21] func*/
-struct Empresa
-{
+struct Empresa{
     int curr_size;
     int last_id;
-    bool exists;
+    bool exists; // apagar
     struct Funcionario *func;
 };
 typedef struct Empresa SEmpresa;

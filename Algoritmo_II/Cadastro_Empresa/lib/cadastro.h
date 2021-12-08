@@ -27,10 +27,13 @@ void update_info(PSEmpresa emp);
 /* Deletes an existing entry */
 void delete_info(PSEmpresa emp);
 
-/* returns the index of the wanted id */
+/* returns the index of the wanted id 
+if == -1, the id doesn't currently exists */
 int get_index(PSEmpresa emp, int wanted_id);
 
-/* swap arrays of SFuncionario */
+/* swap arrays of SFuncionario
+ant passa a ser pos
+pos passa a ser ant*/
 void swap(PSFuncionario ant, PSFuncionario pos);
 
 /* Orders alphabetically */

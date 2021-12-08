@@ -17,7 +17,7 @@ void init_db(PSEmpresa emp, int op){
             }
         }
         emp->exists = true;
-        printf("\tAccio\n");
+        printf("\tLido do arquivo com sucesso.\n");
     }
     // Deleta tudo atual do banco de dados e nos arquivos
     else if(op == 2){
@@ -26,18 +26,18 @@ void init_db(PSEmpresa emp, int op){
         free(emp->func);
 
         emp->exists = true;
-        printf("\tAvada Kedavra\n");
+        printf("\tSessao nova gerada.\n");
     }
     // inicia o banco de dados para receber dados do teclado
     else{
         emp->curr_size = 0;
         emp->last_id = 0;
         emp->exists = true;
-        printf("\tLumos Maxima\n");
+        printf("\tSessao nova gerada.\n");
     }
 }
 
-// get index by THE ID INPUT for the delete and update
+// retorna o index PELO ID PROCURADO para o delete e update
 int get_index(PSEmpresa emp, int wanted_id){
     int i;
 
@@ -49,6 +49,7 @@ int get_index(PSEmpresa emp, int wanted_id){
     return -1;
 }
 
+// Recebe os dados para preencher o array do funcionario
 void input(PSFuncionario f){
     printf("Nome do Funcionario: ");
     f_gets(f->name, stdin, true);
@@ -65,12 +66,14 @@ void input(PSFuncionario f){
 void get_info(PSEmpresa emp, int n){
     int i;
 
+    //Aloca o espaco necessario para os novos dados
     emp->func = (emp->curr_size == 0)? malloc(sizeof(SFuncionario) * n) : realloc(emp->func, (sizeof(SFuncionario) * (emp->curr_size + n)));
     for (i = emp->curr_size; i < (emp->curr_size + n); i++){
-        emp->func[i].id = (emp->last_id++)+1; // need to increment it like this so it does work when makeing new entires after file read
-        input(&emp->func[i]);
+        // need to increment it like this so it does work when makeing new entires after file read
+        emp->func[i].id = (emp->last_id++)+1; 
+        input(&emp->func[i]); // funcao para receber o nome, idade, horas.
     }
-    emp->curr_size += n;
+    emp->curr_size += n; // atualiza o tamanho do atual do array de funcionarios
     printf("\tRegistros feitos com sucesso.\n");
 }
 
@@ -78,13 +81,17 @@ void get_info(PSEmpresa emp, int n){
 void read_info(PSEmpresa emp){
     int i;
     printf("\tcurrent size: %i   last id: %i   \n", emp->curr_size, emp->last_id);
+    printf(
+        "\t+----+--------------------+-------+-------+\n"
+        "\t| id |        nome        | idade | horas |\n"
+        );
     for (i = 0; i < (emp->curr_size); i++){
         printf(
-            "\tid: %i   nome: %-15s   idade: %-2i   horas: %-2i\n",
+            "\t| %2i | %-18s | %-5i | %-5i |\n",
             emp->func[i].id, emp->func[i].name, emp->func[i].age, emp->func[i].hours
         );
     }
-    printf("\t------------------------------------------------------------\n");
+    printf("\t+----+--------------------+-------+-------+n");
 }
 
 // update
@@ -94,9 +101,9 @@ void update_info(PSEmpresa emp){
     printf("ID para fazer UPDATE no banco de dados: ");
     scanf("%i", &id);
     clean_stdin();
-    index = get_index(emp, id);
+    index = get_index(emp, id); //pega o index do id inserido
 
-    if (index < 0){
+    if (index < 0){ 
         printf("\tRegistro nao encontrado, tente um ID que exista\n");
     }else{
         printf("\tRegistro atual: \n"
@@ -105,7 +112,6 @@ void update_info(PSEmpresa emp){
         );
         input(&emp->func[index]);
     }
-
 }
 
 // delete
@@ -115,23 +121,22 @@ void delete_info(PSEmpresa emp){
     printf("ID para DELETAR do banco de dados: ");
     scanf("%i", &id);
     clean_stdin();
-    index = get_index(emp, id);
+    index = get_index(emp, id); //pega o index do id inserido
 
     if (index < 0){
         printf("Registro nao encontrado, tente um ID que exista\n");
     }else{
+        // "empurra" o dado que quer deletar para o final do array
         for(i = index; i < emp->curr_size-1; i++){
-            /*  DO A SWAP FUNCTION */
             swap(&emp->func[i], &emp->func[i+1]);
         }
-        emp->curr_size--;
-        // if there's an error, it is in this line
+        emp->curr_size--; // diminui o tamanho atual do array de funcionario
+        // apaga o dado ao "desalocar" o espaco de memoria que ele ocupa
         emp->func = realloc(emp->func, (sizeof(SFuncionario) * emp->curr_size));
     }
-
 }
 
-// swap
+// swap. funcao auxiliar dos metodos de sort e de delete.
 void swap(PSFuncionario ant, PSFuncionario pos){
     SFuncionario temp_func;
 
@@ -161,7 +166,7 @@ void sort_hours(PSEmpresa emp){
     for (i = 0; i < emp->curr_size-1; i++){
         k = i;
         for (j = i; j < emp->curr_size; j++){
-            if (emp->func[j].hours < emp->func[k].hours){
+            if (emp->func[j].hours < emp->func[k].hours){ // compara as horas
                 k = j;
             }
         }
@@ -178,7 +183,7 @@ void sort_age(PSEmpresa emp){
     for (i = 0; i < emp->curr_size-1; i++){
         k = i;
         for (j = i; j < emp->curr_size; j++){
-            if (emp->func[j].age < emp->func[k].age){
+            if (emp->func[j].age < emp->func[k].age){ // compara as idades
                 k = j;
             }
         }
@@ -195,7 +200,7 @@ void sort_id(PSEmpresa emp){
     for (i = 0; i < emp->curr_size-1; i++){
         k = i;
         for (j = i; j < emp->curr_size; j++){
-            if (emp->func[j].id < emp->func[k].id){
+            if (emp->func[j].id < emp->func[k].id){ // compara os id
                 k = j;
             }
         }
@@ -211,7 +216,7 @@ void sort_name(PSEmpresa emp){
     int i, j;
     for (i = 0; i < emp->curr_size-1; i++){
         for (j = i; j < emp->curr_size; j++){
-            if(str_cmp(emp->func[i].name, emp->func[j].name) > 0){
+            if(str_cmp(emp->func[i].name, emp->func[j].name) > 0){ // compara os nomes
                 swap(&emp->func[i], &emp->func[j]);
             }
         }
@@ -255,7 +260,7 @@ void save_to_file(PSEmpresa emp){
 
 // reads from file
 PSFuncionario read_from_file(int *len){
-
+    //passa o "emp->curr_size" como referencia para que esta funcao "retorne" mais que um valor
     SFuncionario read_func;
     PSFuncionario func;
     int i = 0;
@@ -271,8 +276,10 @@ PSFuncionario read_from_file(int *len){
         while (fread(&read_func, sizeof(SFuncionario), 1, infile)){
             /* alocates space if there's content on the txt,
             keeps allocating more space if there's more content on the txt */
+            /* Aloca memoria para o vetor de funcionarios se tiver conteudo no txt
+            continua alocando mais espaco caso tenha mais conteudo. */
             func = (i == 0) ? malloc(sizeof(SFuncionario) * 1) : realloc(func, sizeof(SFuncionario) * (i + 1));
-
+            // copia os dados de read_func para o array de funcionario que iremos retornar
             func[i].id = read_func.id;
             func[i].hours = read_func.hours;
             func[i].age = read_func.age;
@@ -281,19 +288,19 @@ PSFuncionario read_from_file(int *len){
             i++;
         }
         fclose(infile);
-        *len = i;
-        // func = realloc(func, sizeof(SFuncionario)*(i));
+        *len = i; //"retorna" qual o tamanho atual do array de SFuncionario
         return func;
     }
 }
 
+// abre os arquivos em modo "w" para apagar os dados neles.
 void delete_files(){
     FILE *outfile, *human_outfile;
 
     outfile = fopen(PATH, "w");
     human_outfile = fopen(HUMAN_PATH, "w");
     if ((outfile == NULL)||(human_outfile == NULL)){
-        printf("\tErro tentnaod abrir o banco de dados\n");
+        printf("\tErro tentando abrir o banco de dados\n");
     }else{
         printf("\tEvidencia limpa com sucesso.\n");
     }
