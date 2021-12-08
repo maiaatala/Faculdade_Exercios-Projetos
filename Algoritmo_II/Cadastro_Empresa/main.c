@@ -1,11 +1,5 @@
 #include "./lib/cadastro.h"
 
-/* main menu must be the place that will gatekeep if curr_size > max_size! */
-/* must have free empresa.func in the end */
-/* must thave the menuing */
-
-/* make a prettier read info, remember to use tab */
-
 void print_menu(){
     printf(
         "\n\t+----+--------------------------+\n"
