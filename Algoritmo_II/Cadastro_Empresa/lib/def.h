@@ -21,14 +21,14 @@ typedef enum
 // structs
 /*Struct para armazeanr os dados do funcionário
 char *nome
-int horas
+int hours
 */
 struct Funcionario
 {
     unsigned int id;
     char name[MAX_CHAR]; //precisa ser tramanho constante para na hora da leitura de arquivo, ele saber alocar os binarios corretos
-    int horas;
-    int idade;
+    int hours;
+    int age;
 };
 typedef struct Funcionario SFuncionario;   //Struct Funcionario
 typedef struct Funcionario *PSFuncionario; //Pointer To Struct Funcionario
@@ -40,6 +40,7 @@ struct Empresa
 {
     int curr_size;
     int last_id;
+    bool exists;
     struct Funcionario *func;
 };
 typedef struct Empresa SEmpresa;

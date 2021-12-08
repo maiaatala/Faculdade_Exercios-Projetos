@@ -1,5 +1,53 @@
 #include "cadastro.h"
 
+// inicia a struct PSEmpresa
+void init_db(PSEmpresa emp, int op){
+    int i;
+
+    // inicia o banco de dados a partir do arquivo
+    if (op==1){
+        emp->func = read_from_file(&emp->curr_size);
+        emp->last_id = 0;
+        // printf("K: %i\n", emp->curr_size);
+        for (i = 0; i < emp->curr_size; i++){
+            // printf("id: %i   name: %s   hours: %i\n", emp->func[i].id, emp->func[i].name, emp->func[i].hours);
+            if (emp->func[i].id > emp->last_id){
+                emp->last_id = emp->func[i].id;
+            }
+        }
+        emp->exists = true;
+        printf("\tAccio\n");
+    }
+    // Deleta tudo atual do banco de dados e nos arquivos
+    else if(op == 2){
+        FILE *outfile;
+        emp->last_id = 0;
+        emp->curr_size = 0;
+        free(emp->func);
+
+        outfile = fopen(PATH, "w");
+        if (outfile == NULL){
+            printf("Error opening database file\n");
+        }
+        fclose(outfile);
+        outfile = fopen(HUMAN_PATH, "w");
+        if (outfile == NULL){
+            printf("Error opening text file\n");
+        }
+        fclose(outfile);
+        emp->exists = true;
+        printf("\tAvada Kedavra\n");
+    }
+    // inicia o banco de dados para receber dados do teclado
+    else{
+        emp->curr_size = 0;
+        emp->last_id = 0;
+        emp->exists = true;
+        printf("\tLumos Maxima\n");
+    }
+
+}
+
 // get index by THE ID INPUT for the delete and update
 int get_index(PSEmpresa emp, int wanted_id){
     int i;
@@ -17,10 +65,10 @@ void input(PSFuncionario f){
     f_gets(f->name, stdin, true);
     // emp->func[i].name = getstr(stdin, true);
     printf("Idade: ");
-    scanf("%i", &f->idade);
+    scanf("%i", &f->age);
     clean_stdin();
     printf("Horas: ");
-    scanf("%i", &f->horas);
+    scanf("%i", &f->hours);
     clean_stdin();
 }
 
@@ -35,18 +83,18 @@ void get_info(PSEmpresa emp, int n){
     //     emp->func = realloc(emp->func, sizeof(SFuncionario) * (emp->curr_size + n));
     // }
     emp->func = (emp->curr_size == 0)? malloc(sizeof(SFuncionario) * n) : realloc(emp->func, (sizeof(SFuncionario) * (emp->curr_size + n)));
-    
+    emp->last_id++; // to not have the same id when creating new entries after file read
     for (i = emp->curr_size; i < (emp->curr_size + n); i++){
         emp->func[i].id = (emp->last_id++);
         input(&emp->func[i]);
         // printf("Nome: ");
         // f_gets(emp->func[i].name, stdin, true);
         // // emp->func[i].name = getstr(stdin, true);
-        // printf("Idade: ");
-        // scanf("%i", &emp->func[i].idade);
+        // printf("age: ");
+        // scanf("%i", &emp->func[i].age);
         // clean_stdin();
-        // printf("Horas: ");
-        // scanf("%i", &emp->func[i].horas);
+        // printf("hours: ");
+        // scanf("%i", &emp->func[i].hours);
         // clean_stdin();
     }
     emp->curr_size += n;
@@ -55,13 +103,14 @@ void get_info(PSEmpresa emp, int n){
 // Read
 void read_info(PSEmpresa emp){
     int i;
-    printf("current size: %i   last id: %i   \n", emp->curr_size, emp->last_id);
+    printf("\tcurrent size: %i   last id: %i   \n", emp->curr_size, emp->last_id);
     for (i = 0; i < (emp->curr_size); i++){
         printf(
-            "id: %i   nome: %s   idade: %3i   horas: %3i\n",
-            emp->func[i].id, emp->func[i].name, emp->func[i].idade, emp->func[i].horas
+            "\tid: %i   nome: %-15s   idade: %-2i   horas: %-2i\n",
+            emp->func[i].id, emp->func[i].name, emp->func[i].age, emp->func[i].hours
         );
     }
+    printf("\t------------------------------------------------------------\n");
 }
 
 // update
@@ -104,42 +153,106 @@ void delete_info(PSEmpresa emp){
 
 }
 
-// sorts
-
 // swap
 void swap(PSFuncionario ant, PSFuncionario pos){
     SFuncionario temp_func;
 
     /* saving to the temp */
     str_cpy(temp_func.name, pos->name);
-    temp_func.horas = pos->horas;
-    temp_func.idade = pos->idade;
+    temp_func.hours = pos->hours;
+    temp_func.age = pos->age;
     temp_func.id = pos->id;
 
     /* Passing anterior to pos */
     str_cpy(pos->name, ant->name);
-    pos->horas = ant->horas;
-    pos->idade = ant->idade;
+    pos->hours = ant->hours;
+    pos->age = ant->age;
     pos->id = ant->id;
 
     /* Passing pos to anterior */
     str_cpy(ant->name, temp_func.name);
-    ant->idade = temp_func.idade;
-    ant->horas = temp_func.horas;
+    ant->age = temp_func.age;
+    ant->hours = temp_func.hours;
     ant->id = temp_func.id;
+}
 
+// sorts
+/* ordena por horas */
+void sort_hours(PSEmpresa emp){
+    int i, j, k;
+    for (i = 0; i < emp->curr_size-1; i++){
+        k = i;
+        for (j = i; j < emp->curr_size; j++){
+            if (emp->func[j].hours < emp->func[k].hours){
+                k = j;
+            }
+        }
+        if (k != i){
+            swap(&emp->func[i], &emp->func[k]);
+        }
+    }
+}
+
+/* ordena por idade */
+void sort_age(PSEmpresa emp){
+    int i, j, k;
+    for (i = 0; i < emp->curr_size-1; i++){
+        k = i;
+        for (j = i; j < emp->curr_size; j++){
+            if (emp->func[j].age < emp->func[k].age){
+                k = j;
+            }
+        }
+        if (k != i){
+            swap(&emp->func[i], &emp->func[k]);
+        }
+    }
+}
+
+/* ordena por ID */
+void sort_id(PSEmpresa emp){
+    int i, j, k;
+    for (i = 0; i < emp->curr_size-1; i++){
+        k = i;
+        for (j = i; j < emp->curr_size; j++){
+            if (emp->func[j].id < emp->func[k].id){
+                k = j;
+            }
+        }
+        if (k != i){
+            swap(&emp->func[i], &emp->func[k]);
+        }
+    }
+}
+
+/* ordena por nome */
+void sort_name(PSEmpresa emp){
+    int i, j;
+    for (i = 0; i < emp->curr_size-1; i++){
+        for (j = i; j < emp->curr_size; j++){
+            if(str_cmp(emp->func[i].name, emp->func[j].name) > 0){
+                swap(&emp->func[i], &emp->func[j]);
+            }
+        }
+    }
 }
 
 // Save to file
 void save_to_file(PSEmpresa emp){
     int i;
     FILE *outfile;
+    FILE *human_outfile;
 
     // open file for writing
     outfile = fopen(PATH, "w");
+    human_outfile = fopen(HUMAN_PATH, "w");
     // verify if it was opened suceffuly
     if (outfile == NULL){
-        printf("Error openning the file.\n");
+        printf("Error opening the file.\n");
+        // fprintf(stderr, "\nError opened file\n");
+        exit(1); //exit failure
+    }if (human_outfile == NULL){
+        printf("Error opening the human's file.\n");
         // fprintf(stderr, "\nError opened file\n");
         exit(1); //exit failure
     }
@@ -148,10 +261,13 @@ void save_to_file(PSEmpresa emp){
         for (i = 0; i < emp->curr_size; i++)
         {
             fwrite(&emp->func[i], sizeof(SFuncionario), 1, outfile);
+            fprintf(human_outfile, "%s\n%i\n%i\n", emp->func[i].name, emp->func[i].hours, emp->func[i].age);
         }
     }
     // close file
     fclose(outfile);
+    fclose(human_outfile);
+    printf("\tMalfeito feito.\n");
 }
 
 // reads from file
@@ -165,19 +281,18 @@ PSFuncionario read_from_file(int *len){
     infile = fopen(PATH, "r");
 
     if (infile == NULL){
-        fprintf(stderr, "\nError opening file\n");
+        printf("Error opening file\n");
         exit(1); // exit failure
     }
     else{
-
         while (fread(&read_func, sizeof(SFuncionario), 1, infile)){
             /* alocates space if there's content on the txt,
             keeps allocating more space if there's more content on the txt */
             func = (i == 0) ? malloc(sizeof(SFuncionario) * 1) : realloc(func, sizeof(SFuncionario) * (i + 1));
 
             func[i].id = read_func.id;
-            func[i].horas = read_func.horas;
-            func[i].idade = read_func.idade;
+            func[i].hours = read_func.hours;
+            func[i].age = read_func.age;
             str_cpy(func[i].name, read_func.name);
 
             i++;
@@ -187,27 +302,4 @@ PSFuncionario read_from_file(int *len){
         // func = realloc(func, sizeof(SFuncionario)*(i));
         return func;
     }
-}
-
-// inicia a struct PSEmpresa
-void init_db(PSEmpresa emp, bool file){
-    int i = 0;
-
-    if (file){
-        emp->func = read_from_file(&emp->curr_size);
-        emp->last_id = 0;
-        // printf("K: %i\n", emp->curr_size);
-        for (i = 0; i < emp->curr_size; i++){
-            // printf("id: %i   name: %s   Horas: %i\n", emp->func[i].id, emp->func[i].name, emp->func[i].horas);
-            if (emp->func[i].id > emp->last_id){
-                emp->last_id = emp->func[i].id;
-            }
-        }
-    }
-    else{
-        emp->curr_size = 0;
-        emp->last_id = 0;
-    }
-
-    // printf("hjey\n");
 }

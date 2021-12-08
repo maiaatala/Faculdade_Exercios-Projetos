@@ -6,8 +6,11 @@
 #include "lin.h"
 #include "str.h"
 
-/* inicializes the database, if bool reads from the file */
-void init_db(PSEmpresa emp, bool op);
+/* inicializes the database,
+if op == 1 reads from the file 
+if op == 2 deletes and reestarts the db
+if other, starts the db for keyboard input*/
+void init_db(PSEmpresa emp, int op);
 
 /* Fills the attributes of PSFuncionario from the keyboard*/
 void input(PSFuncionario f);
@@ -30,18 +33,20 @@ int get_index(PSEmpresa emp, int wanted_id);
 /* swap arrays of SFuncionario */
 void swap(PSFuncionario ant, PSFuncionario pos);
 
-/* Orders function */
-
 /* Orders alphabetically */
+void sort_name(PSEmpresa emp);
 
 /* Order by hours */
+void sort_hours(PSEmpresa emp);
 
 /* Order by Age */
+void sort_age(PSEmpresa emp);
 
-/* saves to file */
+/* Order by ID */
+void sort_id(PSEmpresa emp);
+
+/* saves to file, the database .dat, and the human file, .txt*/
 void save_to_file(PSEmpresa emp);
-
-/* saves to HUMANS readable file */
 
 /* reads from file */
 PSFuncionario read_from_file(int *len);
