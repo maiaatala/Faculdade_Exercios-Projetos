@@ -6,8 +6,9 @@ void init_db(PSEmpresa emp, int op){
 
     // inicia o banco de dados a partir do arquivo
     if (op==1){
-        emp->func = read_from_file(&emp->curr_size);
+        emp->curr_size = 0;
         emp->last_id = 0;
+        emp->func = read_from_file(&emp->curr_size);
         // printf("K: %i\n", emp->curr_size);
         for (i = 0; i < emp->curr_size; i++){
             // printf("id: %i   name: %s   hours: %i\n", emp->func[i].id, emp->func[i].name, emp->func[i].hours);
@@ -20,21 +21,10 @@ void init_db(PSEmpresa emp, int op){
     }
     // Deleta tudo atual do banco de dados e nos arquivos
     else if(op == 2){
-        FILE *outfile;
         emp->last_id = 0;
         emp->curr_size = 0;
         free(emp->func);
 
-        outfile = fopen(PATH, "w");
-        if (outfile == NULL){
-            printf("Error opening database file\n");
-        }
-        fclose(outfile);
-        outfile = fopen(HUMAN_PATH, "w");
-        if (outfile == NULL){
-            printf("Error opening text file\n");
-        }
-        fclose(outfile);
         emp->exists = true;
         printf("\tAvada Kedavra\n");
     }
@@ -45,7 +35,6 @@ void init_db(PSEmpresa emp, int op){
         emp->exists = true;
         printf("\tLumos Maxima\n");
     }
-
 }
 
 // get index by THE ID INPUT for the delete and update
@@ -61,13 +50,13 @@ int get_index(PSEmpresa emp, int wanted_id){
 }
 
 void input(PSFuncionario f){
-    printf("Nome: ");
+    printf("Nome do Funcionario: ");
     f_gets(f->name, stdin, true);
     // emp->func[i].name = getstr(stdin, true);
-    printf("Idade: ");
+    printf("Idade do Funcionario: ");
     scanf("%i", &f->age);
     clean_stdin();
-    printf("Horas: ");
+    printf("Horas Trabalhadas: ");
     scanf("%i", &f->hours);
     clean_stdin();
 }
@@ -76,27 +65,13 @@ void input(PSFuncionario f){
 void get_info(PSEmpresa emp, int n){
     int i;
 
-    // if (emp->curr_size == 0){
-    //     emp->func = (SFuncionario *)malloc(sizeof(SFuncionario) * n);
-    // }
-    // else{
-    //     emp->func = realloc(emp->func, sizeof(SFuncionario) * (emp->curr_size + n));
-    // }
     emp->func = (emp->curr_size == 0)? malloc(sizeof(SFuncionario) * n) : realloc(emp->func, (sizeof(SFuncionario) * (emp->curr_size + n)));
     for (i = emp->curr_size; i < (emp->curr_size + n); i++){
         emp->func[i].id = (emp->last_id++)+1; // need to increment it like this so it does work when makeing new entires after file read
         input(&emp->func[i]);
-        // printf("Nome: ");
-        // f_gets(emp->func[i].name, stdin, true);
-        // // emp->func[i].name = getstr(stdin, true);
-        // printf("age: ");
-        // scanf("%i", &emp->func[i].age);
-        // clean_stdin();
-        // printf("hours: ");
-        // scanf("%i", &emp->func[i].hours);
-        // clean_stdin();
     }
     emp->curr_size += n;
+    printf("\tRegistros feitos com sucesso.\n");
 }
 
 // Read
@@ -122,8 +97,12 @@ void update_info(PSEmpresa emp){
     index = get_index(emp, id);
 
     if (index < 0){
-        printf("Registro nao encontrado, tente um ID que exista\n");
+        printf("\tRegistro nao encontrado, tente um ID que exista\n");
     }else{
+        printf("\tRegistro atual: \n"
+            "\tid: %i   nome: %-15s   idade: %-2i   horas: %-2i\n",
+            emp->func[index].id, emp->func[index].name, emp->func[index].age, emp->func[index].hours
+        );
         input(&emp->func[index]);
     }
 
@@ -141,7 +120,7 @@ void delete_info(PSEmpresa emp){
     if (index < 0){
         printf("Registro nao encontrado, tente um ID que exista\n");
     }else{
-        for(i = id; i < emp->curr_size-1; i++){
+        for(i = index; i < emp->curr_size-1; i++){
             /*  DO A SWAP FUNCTION */
             swap(&emp->func[i], &emp->func[i+1]);
         }
@@ -190,6 +169,7 @@ void sort_hours(PSEmpresa emp){
             swap(&emp->func[i], &emp->func[k]);
         }
     }
+    printf("\tRegistros ordenados Por Horas\n");
 }
 
 /* ordena por idade */
@@ -206,6 +186,7 @@ void sort_age(PSEmpresa emp){
             swap(&emp->func[i], &emp->func[k]);
         }
     }
+    printf("\tRegistros ordenados Por Idade\n");
 }
 
 /* ordena por ID */
@@ -222,6 +203,7 @@ void sort_id(PSEmpresa emp){
             swap(&emp->func[i], &emp->func[k]);
         }
     }
+    printf("\tRegistros ordenados Por ID\n");
 }
 
 /* ordena por nome */
@@ -234,6 +216,7 @@ void sort_name(PSEmpresa emp){
             }
         }
     }
+    printf("\tRegistros ordenados Por Nome\n");
 }
 
 // Save to file
@@ -260,12 +243,13 @@ void save_to_file(PSEmpresa emp){
         for (i = 0; i < emp->curr_size; i++)
         {
             fwrite(&emp->func[i], sizeof(SFuncionario), 1, outfile);
+        }
+        fclose(outfile);
+        for (i=0; i<emp->curr_size; i++){
             fprintf(human_outfile, "%s\n%i\n%i\n", emp->func[i].name, emp->func[i].hours, emp->func[i].age);
         }
+        fclose(human_outfile);
     }
-    // close file
-    fclose(outfile);
-    fclose(human_outfile);
     printf("\tMalfeito feito.\n");
 }
 
@@ -280,7 +264,7 @@ PSFuncionario read_from_file(int *len){
     infile = fopen(PATH, "r");
 
     if (infile == NULL){
-        printf("Error opening file\n");
+        printf("Erro ao tentar abrir o banco de dados.\n");
         exit(1); // exit failure
     }
     else{
@@ -301,4 +285,18 @@ PSFuncionario read_from_file(int *len){
         // func = realloc(func, sizeof(SFuncionario)*(i));
         return func;
     }
+}
+
+void delete_files(){
+    FILE *outfile, *human_outfile;
+
+    outfile = fopen(PATH, "w");
+    human_outfile = fopen(HUMAN_PATH, "w");
+    if ((outfile == NULL)||(human_outfile == NULL)){
+        printf("\tErro tentnaod abrir o banco de dados\n");
+    }else{
+        printf("\tEvidencia limpa com sucesso.\n");
+    }
+    fclose(outfile);
+    fclose(human_outfile);
 }

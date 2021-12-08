@@ -51,4 +51,7 @@ void save_to_file(PSEmpresa emp);
 /* reads from file */
 PSFuncionario read_from_file(int *len);
 
+/* Deletes all the information contained in the files */
+void delete_files();
+
 #endif
