@@ -54,6 +54,12 @@ int main(){
     // sort_id(&empresa);
     // read_info(&empresa);
 
+    init_db(&empresa, 1);
+    read_info(&empresa);
+    // empresa.func[0] = empresa.func[1];
+    sort_age(&empresa);
+    read_info(&empresa);
+
     free(empresa.func);
     return 0;
 }

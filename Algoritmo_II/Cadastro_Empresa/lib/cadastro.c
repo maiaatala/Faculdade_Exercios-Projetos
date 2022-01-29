@@ -55,10 +55,10 @@ void input(PSFuncionario f){
     f_gets(f->name, stdin, true);
     // emp->func[i].name = getstr(stdin, true);
     printf("Idade do Funcionario: ");
-    scanf("%i", &f->age);
+    scanf(" %i", &f->age);
     clean_stdin();
     printf("Horas Trabalhadas: ");
-    scanf("%i", &f->hours);
+    scanf(" %i", &f->hours);
     clean_stdin();
 }
 
@@ -91,7 +91,7 @@ void read_info(PSEmpresa emp){
             emp->func[i].id, emp->func[i].name, emp->func[i].age, emp->func[i].hours
         );
     }
-    printf("\t+----+--------------------+-------+-------+n");
+    printf("\t+----+--------------------+-------+-------+\n");
 }
 
 // update
@@ -140,23 +140,31 @@ void delete_info(PSEmpresa emp){
 void swap(PSFuncionario ant, PSFuncionario pos){
     SFuncionario temp_func;
 
-    /* saving to the temp */
-    str_cpy(temp_func.name, pos->name);
-    temp_func.hours = pos->hours;
-    temp_func.age = pos->age;
-    temp_func.id = pos->id;
+    /* turns out that this works */
+    temp_func = *pos;
+    *pos = *ant;
+    *ant = temp_func;
 
-    /* Passing anterior to pos */
-    str_cpy(pos->name, ant->name);
-    pos->hours = ant->hours;
-    pos->age = ant->age;
-    pos->id = ant->id;
+    // /* saving to the temp */
+    // str_cpy(temp_func.name, pos->name);
+    // temp_func.hours = pos->hours;
+    // temp_func.age = pos->age;
+    // temp_func.id = pos->id;
 
-    /* Passing pos to anterior */
-    str_cpy(ant->name, temp_func.name);
-    ant->age = temp_func.age;
-    ant->hours = temp_func.hours;
-    ant->id = temp_func.id;
+    // /* Passing anterior to pos */
+    // str_cpy(pos->name, ant->name);
+    // pos->hours = ant->hours;
+    // pos->age = ant->age;
+    // pos->id = ant->id;
+
+    // /* Passing pos to anterior */
+    // str_cpy(ant->name, temp_func.name);
+    // ant->age = temp_func.age;
+    // ant->hours = temp_func.hours;
+    // ant->id = temp_func.id;
+
+    
+
 }
 
 // sorts
@@ -165,7 +173,7 @@ void sort_hours(PSEmpresa emp){
     int i, j, k;
     for (i = 0; i < emp->curr_size-1; i++){
         k = i;
-        for (j = i; j < emp->curr_size; j++){
+        for (j = i+1; j < emp->curr_size; j++){
             if (emp->func[j].hours < emp->func[k].hours){ // compara as horas
                 k = j;
             }
@@ -182,7 +190,7 @@ void sort_age(PSEmpresa emp){
     int i, j, k;
     for (i = 0; i < emp->curr_size-1; i++){
         k = i;
-        for (j = i; j < emp->curr_size; j++){
+        for (j = i+1; j < emp->curr_size; j++){
             if (emp->func[j].age < emp->func[k].age){ // compara as idades
                 k = j;
             }
@@ -199,7 +207,7 @@ void sort_id(PSEmpresa emp){
     int i, j, k;
     for (i = 0; i < emp->curr_size-1; i++){
         k = i;
-        for (j = i; j < emp->curr_size; j++){
+        for (j = i+1; j < emp->curr_size; j++){
             if (emp->func[j].id < emp->func[k].id){ // compara os id
                 k = j;
             }
@@ -215,7 +223,7 @@ void sort_id(PSEmpresa emp){
 void sort_name(PSEmpresa emp){
     int i, j;
     for (i = 0; i < emp->curr_size-1; i++){
-        for (j = i; j < emp->curr_size; j++){
+        for (j = i+1; j < emp->curr_size; j++){
             if(str_cmp(emp->func[i].name, emp->func[j].name) > 0){ // compara os nomes
                 swap(&emp->func[i], &emp->func[j]);
             }
@@ -279,11 +287,13 @@ PSFuncionario read_from_file(int *len){
             /* Aloca memoria para o vetor de funcionarios se tiver conteudo no txt
             continua alocando mais espaco caso tenha mais conteudo. */
             func = (i == 0) ? malloc(sizeof(SFuncionario) * 1) : realloc(func, sizeof(SFuncionario) * (i + 1));
+            func[i] = read_func; // turns out that this works 
+
             // copia os dados de read_func para o array de funcionario que iremos retornar
-            func[i].id = read_func.id;
-            func[i].hours = read_func.hours;
-            func[i].age = read_func.age;
-            str_cpy(func[i].name, read_func.name);
+            // func[i].id = read_func.id;
+            // func[i].hours = read_func.hours;
+            // func[i].age = read_func.age;
+            // str_cpy(func[i].name, read_func.name);
 
             i++;
         }

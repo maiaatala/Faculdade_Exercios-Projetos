@@ -15,14 +15,14 @@
 typedef enum{false, true} bool;
 
 // structs
-/*Struct para armazeanr os dados do funcionário
+/*Struct para armazenar os dados do funcionário
 int id
 char *nome
 int hours
 */
 struct Funcionario{
     unsigned int id;
-    char name[MAX_CHAR]; //precisa ser tramanho constante para na hora da leitura de arquivo, ele saber alocar os binarios corretos
+    char name[MAX_CHAR]; //precisa ser taamanho constante para na hora da leitura de arquivo, ele saber alocar os binarios corretos
     int hours;
     int age;
 };
